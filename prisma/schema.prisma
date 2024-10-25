@@ -1,0 +1,256 @@
+enum Found {
+  Whatsapp
+  Messenger
+  Direct_call
+  Reference
+}
+
+enum Status {
+  Actives
+  Potencial
+  Suspended
+}
+
+enum Publish {
+  Published
+  To_publish
+}
+
+enum Forma {
+  choose
+  zelle
+  paypal
+  venmo
+  stripe
+  cash
+  cheque
+  tarjeta
+}
+
+enum Payment_status {
+  choose
+  paid
+  promesa
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       Int      @id @default(autoincrement())
+  name     String
+  password String
+  Cl_ads   Cl_ads[]
+}
+
+model Cl_accounts {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Clients Clients[]
+}
+
+model Products {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Packs   Packs[]
+  Clients Clients[]
+}
+
+model Packs {
+  id    Int    @id @default(autoincrement())
+  name  String
+  monto Float  @default(0.0)
+
+  product_id Int
+  Products   Products  @relation(fields: [product_id], references: [id])
+  Clients    Clients[]
+}
+
+model Cl_categories {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Clients Clients[]
+}
+
+model Sb_categories {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Clients Clients[]
+}
+
+model Team_guies {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Clients Clients[]
+}
+
+model Clients {
+  id Int @id @default(autoincrement())
+
+  product_id Int
+  Products   Products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  pack_id Int
+  Packs   Packs @relation(fields: [pack_id], references: [id])
+
+  cl_account_id Int
+  Cl_accounts   Cl_accounts @relation(fields: [cl_account_id], references: [id], onDelete: Cascade)
+
+  full_name     String?
+  phone1        String?
+  phone2        String?
+  city_zip_code String? @db.Text
+  date_ads      String?
+  cities_job    String? @db.Text
+  service_list  String? @db.Text
+
+  sb_category_id Int
+  Sb_categories  Sb_categories @relation(fields: [sb_category_id], references: [id], onDelete: Cascade)
+
+  tean_guy_id Int
+  Team_guies  Team_guies @relation(fields: [tean_guy_id], references: [id], onDelete: Cascade)
+
+  cl_main_area String?
+  cl_sub_area1 String?
+  cl_sub_area2 String?
+  suscription  Boolean @default(false)
+
+  cl_category_id Int
+  Cl_categories  Cl_categories @relation(fields: [cl_category_id], references: [id], onDelete: Cascade)
+
+  cats           String?
+  cl_name1       String?
+  cl_name2       String?
+  images_1_2_3_4 String? @db.Text
+  sus_cl_ads     String?
+  su_serbiz_site String?
+  su_cuenta      String?
+  pending_to_do  String? @db.Text
+  found          Found   @default(Whatsapp)
+  status         Status  @default(Potencial)
+  zip_code_1_2_3 String?
+  business_title String?
+  notes_updates  String?
+  user_id        Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Emogies {
+  id     Int      @id @default(autoincrement())
+  name   String
+  Cl_ads Cl_ads[]
+}
+
+model Content_ads {
+  id     Int      @id @default(autoincrement())
+  status Boolean  @default(true)
+  Cl_ads Cl_ads[]
+}
+
+model Cl_ads {
+  id Int @id @default(autoincrement())
+
+  user_id Int
+  Users   Users @relation(fields: [user_id], references: [id])
+
+  date_ads     String
+  category_cl  String
+  from_ads     String
+  repost       String
+  numberRepost Int
+  number_ad    Int
+  name_user    String
+
+  emogi_id Int
+  Emogies  Emogies @relation(fields: [emogi_id], references: [id])
+
+  estimate   String
+  type_image String
+  publish    Publish
+  status     Boolean @default(false)
+
+  conten_ad_id Int
+  Content_ads  Content_ads @relation(fields: [conten_ad_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Payments {
+  id     Int            @id @default(autoincrement())
+  forma  Forma          @default(choose)
+  status Payment_status @default(choose)
+  start  String?
+  end    String?
+  note   String?        @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Links {
+  id   Int    @id @default(autoincrement())
+  name String
+  link String
+}
+
+model Examples {
+  id                Int     @id @default(autoincrement())
+  sb_house_Cleaning String? @db.Text
+  sb_Gardening_S    String? @db.Text
+  sb_Landscaping_S  String? @db.Text
+  sb_Painting_S     String? @db.Text
+  sb_Remodeling     String? @db.Text
+  sb_Handyman_S     String? @db.Text
+  sb_Hauling_S      String? @db.Text
+  sb_Drywall_S      String? @db.Text
+  tm_house_Cleaning String? @db.Text
+  tm_Gardening_S    String? @db.Text
+  tm_Landscaping_S  String? @db.Text
+  tm_Painting_S     String? @db.Text
+  tm_Remodeling     String? @db.Text
+  tm_Handyman_S     String? @db.Text
+  tm_Hauling_S      String? @db.Text
+  tm_Drywall_S      String? @db.Text
+  cl_house_Cleaning String? @db.Text
+  cl_Gardening_S    String? @db.Text
+  cl_Landscaping_S  String? @db.Text
+  cl_Painting_S     String? @db.Text
+  cl_Remodeling     String? @db.Text
+  cl_Handyman_S     String? @db.Text
+  cl_Hauling_S      String? @db.Text
+  cl_Drywall_S      String? @db.Text
+
+  sb_house_Cleaning2 String? @db.Text
+  sb_Gardening_S2    String? @db.Text
+  sb_Landscaping_S2  String? @db.Text
+  sb_Painting_S2     String? @db.Text
+  sb_Remodeling2     String? @db.Text
+  sb_Handyman_S2     String? @db.Text
+  sb_Hauling_S2      String? @db.Text
+  sb_Drywall_S2      String? @db.Text
+  tm_house_Cleaning2 String? @db.Text
+  tm_Gardening_S2    String? @db.Text
+  tm_Landscaping_S2  String? @db.Text
+  tm_Painting_S2     String? @db.Text
+  tm_Remodeling2     String? @db.Text
+  tm_Handyman_S2     String? @db.Text
+  tm_Hauling_S2      String? @db.Text
+  tm_Drywall_S2      String? @db.Text
+  cl_house_Cleaning2 String? @db.Text
+  cl_Gardening_S2    String? @db.Text
+  cl_Landscaping_S2  String? @db.Text
+  cl_Painting_S2     String? @db.Text
+  cl_Remodeling2     String? @db.Text
+  cl_Handyman_S2     String? @db.Text
+  cl_Hauling_S2      String? @db.Text
+  cl_Drywall_S2      String? @db.Text
+}
