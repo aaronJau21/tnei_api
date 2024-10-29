@@ -5,8 +5,9 @@ import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { ClientModule } from './client/client.module';
 import { OthersModule } from './others/others.module';
+import { ExamplesModule } from './examples/examples.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, SharedModule, ConfigModule.forRoot(), ClientModule, OthersModule],
+  imports: [PrismaModule, UserModule, SharedModule, ConfigModule.forRoot(), ClientModule, OthersModule, ExamplesModule],
 })
 export class AppModule {}
