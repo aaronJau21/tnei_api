@@ -197,9 +197,54 @@ model Payments {
 }
 
 model Links {
-  id   Int    @id @default(autoincrement())
-  name String
-  link String
+  id     Int    @id @default(autoincrement())
+  link   String
+  link2  String
+  link3  String
+  link4  String
+  link5  String
+  link6  String
+  link7  String
+  link8  String
+  link9  String
+  link10 String
+  link11 String
+  link12 String
+  link13 String
+  link14 String
+  link15 String
+  link16 String
+  link17 String
+  link18 String
+  link19 String
+  link20 String
+  link21 String
+  link22 String
+  link23 String
+  link24 String
+  link25 String
+  link26 String
+  link27 String
+  link28 String
+  link29 String
+  link30 String
+  link31 String
+  link33 String
+  link34 String
+  link35 String
+  link36 String
+  link37 String
+  link38 String
+  link39 String
+  link40 String
+  link41 String
+  link42 String
+  link43 String
+  link44 String
+  link45 String
+  link46 String
+  link47 String
+  link48 String
 }
 
 model Examples {

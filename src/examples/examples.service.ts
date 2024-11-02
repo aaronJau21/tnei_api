@@ -21,12 +21,23 @@ export class ExamplesService {
     return { examples };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} example`;
+  async findOne(id: number) {
+    const example = await this.prismaService.examples.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    return example;
   }
 
-  update(id: number, updateExampleDto: UpdateExampleDto) {
-    return `This action updates a #${id} example`;
+  async update(id: number, data: UpdateExampleDto) {
+    const updateExample = await this.prismaService.examples.update({
+      where: { id },
+      data,
+    });
+
+    return updateExample;
   }
 
   remove(id: number) {
